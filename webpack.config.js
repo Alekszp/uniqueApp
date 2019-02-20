@@ -2,7 +2,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
-  entry: './src/components/flux/app.jsx',
+  entry: './src/redux/App.jsx',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
