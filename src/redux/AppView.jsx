@@ -1,8 +1,8 @@
-import { React, Component } from "react";
-import ReactRedux from "react-redux";
-import actions from "./Actions";
+import React, { Component } from "react";
+import {connect} from "react-redux";
+import * as actions from "./Actions.jsx";
 
-const connect = ReactRedux.connect;
+// const connect = ReactRedux.connect;
 
 class FormPhone extends Component {
     constructor(props) {
@@ -28,10 +28,9 @@ class FormPhone extends Component {
 class PhoneItem extends Component {
     constructor(props) {
         super(props);
-
     }
     render() {
-        return (
+        return (            
             <div>
                 <p>
                     <b>{this.props.text}</b><br />
@@ -48,16 +47,19 @@ class PhonesList extends Component {
     render() {
         return (
             <div>
-                {this.props.phones.map(item => {
+                {this.props.phones.map(item => 
                     <PhoneItem key={item}
                         text={item}
                         deletePhone={this.props.deletePhone} />
-                })}
+                )}
             </div>
         )
     }
 }
 class AppView extends Component {
+    constructor(props) {
+        super(props);
+    }
     render(){
         return (
             <div>

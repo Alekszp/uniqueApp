@@ -1,8 +1,10 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const extractCSS = new ExtractTextPlugin('styles.min.css');
 
 module.exports = {
-  entry: './src/redux/App.jsx',
+  entry: './src/App.jsx',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
@@ -28,7 +30,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: extractCSS.extract([
+          'css-loader',
+          'postcss-loader'
+      ])
       }
     ]
   },
@@ -37,6 +42,7 @@ module.exports = {
       title: 'My App',
       template: "./client/index.html",
       filename: "index.html"
-    })
+    }),
+    extractCSS
   ]
 };
