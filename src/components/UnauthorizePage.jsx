@@ -25,7 +25,7 @@ class UnauthorizePage extends Component {
 
     }
     addMessage(message){
-        this.setState({messages: })
+        // this.setState({messages: })
     }
     typingMessage(e){
         this.setState({
@@ -35,15 +35,16 @@ class UnauthorizePage extends Component {
     
     sendMessage() {
         socket.emit('message', this.state.loginValue);
+        this.setState({loginValue: ''});
+        this.forceUpdate();
     }
     render() {
         return (
             <div className='loginPage blue-grey lighten-5'>
                 <div className='loginForm blue-grey darken-2 grey-text text-lighten-3'>
                     <Row offset={3} s={6}>
-                        <Input s={12} label="Login" onChange={this.typingMessage}/>
+                        <Input s={12} label="Login" onChange={this.typingMessage} value={this.state.loginValue}/>
                         <Input type="password" label="Password" s={12} />
-                        <div></div>
                     </Row>
 
                     <Row offset={3} s={6}>

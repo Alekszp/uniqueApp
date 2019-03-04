@@ -15,6 +15,7 @@ var socket = function socket(io) {
     socket.on('disconnect', function () {
       console.log('user disconnected');
     });
+    socket.join('all');
     socket.on('message', function (content) {
       var messageObj = {
         date: new Date(),
@@ -27,8 +28,15 @@ var socket = function socket(io) {
         socket.emit("msg", messageObj);
         socket.to('all').emit("msg", messageObj);
       });
-
-      console.log(content);
+    });
+    socket.on("receiveHistory", function () {
+      _MsgModel.default.find({}).sort({
+        date: -1
+      }).limit(50).lean().exec(function (error, messages) {
+        if (!error) {
+          socket.emit("history", messages);
+        }
+      });
     });
   });
 };
