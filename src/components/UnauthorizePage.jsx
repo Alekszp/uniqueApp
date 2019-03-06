@@ -2,49 +2,71 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Row, Input, Button, Col } from "react-materialize";
 
-
 class UnauthorizePage extends Component {
     constructor(props) {
         super(props);
-        
+
         this.state = {
             loginValue: '',
-            messages: {}
+            messages: []
         };
         this.typingMessage = this.typingMessage.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
     }
     componentWillMount() {
-        console.log('componentWillMount');
         var socket = io.connect('http://localhost:7001');
-        socket.on('history', messages => {
-            for (let message of messages) {
-                addMessage(message);
-            }
+        socket.on('connected', message => {
+            socket.emit('receiveHistory')
         });
+        socket.on('message', (item) => {
+            let newMessagesHistory = this.state.messages;
+            newMessagesHistory.push(item);
+            this.setState({
+                messages: newMessagesHistory
+            });
+        });
+        socket.on('error', (error)=>{console.log(error)});
+        socket.on('history', messages => {
+            this.setState({
+                messages: messages
+            })
+        })
 
     }
-    addMessage(message){
-        // this.setState({messages: })
-    }
-    typingMessage(e){
+    
+    typingMessage(e) {
         this.setState({
             loginValue: e.target.value
         });
     }
-    
+
     sendMessage() {
-        socket.emit('message', this.state.loginValue);
-        this.setState({loginValue: ''});
-        this.forceUpdate();
+        let messageContent = this.state.loginValue.trim();
+        if(messageContent !== '') {
+            socket.emit('msg', this.state.loginValue);
+            
+            this.setState({ loginValue: '' });
+        }
+        
     }
     render() {
         return (
             <div className='loginPage blue-grey lighten-5'>
                 <div className='loginForm blue-grey darken-2 grey-text text-lighten-3'>
                     <Row offset={3} s={6}>
-                        <Input s={12} label="Login" onChange={this.typingMessage} value={this.state.loginValue}/>
+                        <Input s={12} label="Login" onChange={this.typingMessage} value={this.state.loginValue} />
                         <Input type="password" label="Password" s={12} />
+                        <ul>
+                            {
+                                this.state.messages.map((i)=>{
+                                    return (
+                                        <li key={i.date}>
+                                            {i.content}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
                     </Row>
 
                     <Row offset={3} s={6}>

@@ -2,21 +2,22 @@ import MessageModel from "./models/MsgModel.js";
 
 const socket = (io) => {
     io.on('connection', (socket) => {
-        console.log('a user connected');
-        socket.on('disconnect', () => {
-            console.log('user disconnected');
-        });
+        socket.emit('connected');
         socket.join('all');
-        socket.on('message', (content) => {
+        socket.on('msg', (content) => {
             const messageObj = {
                 date: new Date(),
                 content: content,
                 username: socket.id
             };
             MessageModel.create(messageObj, (error) => {
-                if(error) return console.log(error);
-                socket.emit("msg", messageObj);
-                socket.to('all').emit("msg", messageObj);
+                if(error) {
+                    socket.emit('error', error)
+                } else {
+                    socket.emit("message", messageObj);
+                    socket.to('all').emit("message", messageObj);
+                }
+                
             });
         });
         socket.on("receiveHistory", ()=>{

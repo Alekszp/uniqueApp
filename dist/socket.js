@@ -11,12 +11,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var socket = function socket(io) {
   io.on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('disconnect', function () {
-      console.log('user disconnected');
-    });
+    socket.emit('connected');
     socket.join('all');
-    socket.on('message', function (content) {
+    socket.on('msg', function (content) {
       var messageObj = {
         date: new Date(),
         content: content,
@@ -24,9 +21,12 @@ var socket = function socket(io) {
       };
 
       _MsgModel.default.create(messageObj, function (error) {
-        if (error) return console.log(error);
-        socket.emit("msg", messageObj);
-        socket.to('all').emit("msg", messageObj);
+        if (error) {
+          socket.emit('error', error);
+        } else {
+          socket.emit("message", messageObj);
+          socket.to('all').emit("message", messageObj);
+        }
       });
     });
     socket.on("receiveHistory", function () {

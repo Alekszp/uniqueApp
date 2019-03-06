@@ -20,9 +20,9 @@ _mongoose.default.set("debug", true);
 
 _mongoose.default.connect("mongodb://localhost:27017/workers", {
   useNewUrlParser: true
-}); // mongoose.Promise = Promise;
+});
 
-
+_mongoose.default.Promise = Promise;
 var app = (0, _express.default)();
 
 var server = _http.default.Server(app);

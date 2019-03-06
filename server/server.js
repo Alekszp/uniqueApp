@@ -10,7 +10,7 @@ import sockets from "./socket.js";
 
 mongoose.set("debug", true);
 mongoose.connect("mongodb://localhost:27017/workers", { useNewUrlParser: true });
-// mongoose.Promise = Promise;
+mongoose.Promise = Promise;
 
 const app = express();
 const server = http.Server(app);

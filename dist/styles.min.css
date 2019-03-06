@@ -1,44 +1,4 @@
-.flex_row {
-    display: flex;
-    flex-direction: row;
-}
-
-.flex_column {
-    display: flex;
-    flex-direction: column;
-}
-
-.flex_center {
-    justify-content: center;
-}
-
-.flex_align_content_center {
-    align-content: center;
-}
-
-.flex_align_item_center {
-    align-items: center;
-}
-
-.flex1 {
-    flex: 1;
-}
-
-.flex2 {
-    flex: 2;
-}
-
-.flex3 {
-    flex: 3;
-}
-
-.flex4 {
-    flex: 4;
-}
-
-.flex5 {
-    flex: 5;
-}.body {
+.body {
     width: 100%;
     height: 100%;
     background-color: #9e9e9e;
@@ -131,4 +91,45 @@
 }
 .loginForm, .registrationForm {
     width: 500px;
+}
+.flex_row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex_column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex_center {
+    justify-content: center;
+}
+
+.flex_align_content_center {
+    align-content: center;
+}
+
+.flex_align_item_center {
+    align-items: center;
+}
+
+.flex1 {
+    flex: 1;
+}
+
+.flex2 {
+    flex: 2;
+}
+
+.flex3 {
+    flex: 3;
+}
+
+.flex4 {
+    flex: 4;
+}
+
+.flex5 {
+    flex: 5;
 }
