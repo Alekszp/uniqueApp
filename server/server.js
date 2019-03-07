@@ -1,30 +1,39 @@
 import express from 'express';
 import mongoose from "mongoose";
-// import bodyParcer from "body-parser";
-// import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import path from 'path';
 import http from "http";
 import ioClient from "socket.io";
 import sockets from "./socket.js";
+import router from './router.js';
 
+import passport from "passport";
+import {Strategy} from "passport-jwt";
+import {jwt} from "./config.js";
+
+passport.use(new Strategy(jwt, function(jwt_payload, done) {
+  if(jwt_payload != void(0)){
+      return done(false, jwt_payload)
+  };
+  done();
+}));
+
+mongoose.set('debug', true);
+mongoose.connect('mongodb://localhost:27017/workers', { useNewUrlParser: true });
+mongoose.Promise = Promise;
 
 mongoose.set("debug", true);
-mongoose.connect("mongodb://localhost:27017/workers", { useNewUrlParser: true });
-mongoose.Promise = Promise;
 
 const app = express();
 const server = http.Server(app);
 const io = ioClient(server, {serveClient: true});
 
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
-
-app.use('/dist', express.static('./dist'));
-
-app.get('/*', (req, res)=> {
-    res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
-});
-
-
+router(app);
 sockets(io);
 
 server.listen(7001, ()=> {

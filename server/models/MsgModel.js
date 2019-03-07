@@ -6,18 +6,11 @@ const MessageSchema = new Schema({
         type: Date
     },
     content: {
-        type: String,
-        minlength: 5
-    },
-    age: {
-        type: Number,
-        min: 16,
-        max: 100,
-        default: 20
+        type: String
     }
 }, {
-    versionKey: false,
-    collection: "MessageCollection"
-});
+        versionKey: false,
+        collection: "MessageCollection"
+    });
 
 export default mongoose.model("MessageSchema", MessageSchema);
