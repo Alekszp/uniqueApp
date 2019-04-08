@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,8 +11,6 @@ var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var Schema = _mongoose.default.Schema;
 var UserProfileSchema = new Schema({
   addedAt: {
@@ -18,16 +18,19 @@ var UserProfileSchema = new Schema({
     default: Date.now
   },
   firstName: {
-    type: String
+    type: String,
+    minlength: 1
   },
   lastName: {
-    type: String
+    type: String,
+    minlength: 1
   },
   userEmail: {
     type: String
   },
   password: {
-    type: String
+    type: String,
+    required: true
   }
 }, {
   versionKey: false,

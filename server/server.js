@@ -1,8 +1,8 @@
 import express from 'express';
+import session from "express-session";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import path from 'path';
 import http from "http";
 import ioClient from "socket.io";
 import sockets from "./socket.js";
@@ -23,15 +23,13 @@ mongoose.set('debug', true);
 mongoose.connect('mongodb://localhost:27017/workers', { useNewUrlParser: true });
 mongoose.Promise = Promise;
 
-mongoose.set("debug", true);
-
 const app = express();
 const server = http.Server(app);
 const io = ioClient(server, {serveClient: true});
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(cookieParser());
+app.use(cookieParser());  
 
 router(app);
 sockets(io);

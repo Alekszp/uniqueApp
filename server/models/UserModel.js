@@ -8,16 +8,19 @@ const UserProfileSchema = new Schema({
         default: Date.now
     },
     firstName: {
-        type: String
+        type: String,
+        minlength: 1
     },
     lastName: {
-        type: String
+        type: String,
+        minlength: 1
     },
     userEmail: {
-        type: String
+        type: String,
     },
     password: {
-        type: String
+        type: String,
+        required: true
     }
 }, {
         versionKey: false,

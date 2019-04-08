@@ -91,4 +91,10 @@
 }
 .loginForm, .registrationForm {
     width: 500px;
+    padding: 10px 30px;
+}
+.startPageBtnContainer {
+    position: fixed;
+    top: 10px;
+    right: 20px;
 }

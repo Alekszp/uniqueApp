@@ -1,0 +1,44 @@
+.loadingMask {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    z-index: 9998;
+    padding: 20px;
+    overflow-y: auto;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    transition: opacity .3s ease;
+}
+
+.loadingMask .loader {
+    content: "";
+    position: absolute;
+    left: 48%;
+    top: 48%;
+    margin-top: -50px;
+    z-index: 1;
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #3498db;
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(-360deg);
+        transform: rotate(-360deg);
+    }
+}

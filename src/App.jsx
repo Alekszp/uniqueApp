@@ -1,4 +1,4 @@
-import React, { Fragment }  from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { createStore } from "redux";
@@ -14,6 +14,9 @@ import ProfileSettings from "./components/ProfileSettings.jsx";
 import HeaderNavComponent from "./components/Header.jsx";
 import FooterNavComponent from "./components/Footer.jsx";
 
+import Authorization from "./components/authorization1.jsx";
+// import {Main, About, NotFound} from "./components/authorization.jsx";
+
 
 import "./css/flexModifier.css";
 import "./css/WebPage.css";
@@ -24,7 +27,7 @@ const wrapper = document.getElementById("app");
 ReactDOM.render(
    <Provider store={store}>
       <Router>
-         <Fragment>
+         {/* <Fragment>
             <Switch>
                <Route path='/UnauthorizedPage' component={() => <Fragment />} />
                <Route path='/RegistrationForm' component={() => <Fragment />} />
@@ -41,7 +44,10 @@ ReactDOM.render(
                <Route path='/RegistrationForm' component={() => <Fragment />} />
                <Route path='/' component={FooterNavComponent} />               
             </Switch>
-         </Fragment>
+         </Fragment> */}
+         <Authorization />
+
+
       </Router>
    </Provider>, wrapper
 )

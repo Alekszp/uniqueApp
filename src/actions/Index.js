@@ -7,7 +7,7 @@ export const select = (user)=> {
 
 export const del = (user)=> {
     return {
-        type: "USER_DELeTED",
+        type: "USER_DELETED",
         payload: user
     }
 };

@@ -9,7 +9,7 @@ function ExtractJwt(req) {
   var token = null;
 
   if (req.cookies && req.cookies.token != void 0) {
-    token = req.cookies.token['token'];
+    token = req.cookies['token'];
   }
 
   return token;

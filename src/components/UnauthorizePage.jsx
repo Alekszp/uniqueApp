@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Row, Input, Button, Col } from "react-materialize";
+import axios from "axios";
 
 class UnauthorizePage extends Component {
     constructor(props) {
@@ -8,83 +9,81 @@ class UnauthorizePage extends Component {
 
         this.state = {
             loginValue: '',
-            messages: []
+            passwordValue: '',
+            message: '',
+            link: '/login'
         };
-        this.typingMessage = this.typingMessage.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
+        this.logIn = this.logIn.bind(this);
+        this.loginValue = this.loginValue.bind(this);
+        this.passwordValue = this.passwordValue.bind(this);
+        // this.getUser = this.getUser.bind(this);
     }
     componentWillMount() {
-        var socket = io.connect('http://localhost:7001');
-        socket.on('connected', message => {
-            socket.emit('receiveHistory')
-        });
-        socket.on('message', (item) => {
-            let newMessagesHistory = this.state.messages;
-            newMessagesHistory.push(item);
-            this.setState({
-                messages: newMessagesHistory
-            });
-        });
-        socket.on('error', (error)=>{console.log(error)});
-        socket.on('history', messages => {
-            this.setState({
-                messages: messages
-            })
-        })
-
+        // var socket = io.connect('http://localhost:7001');
+        // socket.on('connected', message => {
+        //     socket.emit('receiveHistory')
+        // });
+        // socket.on('message', (item) => {
+        //     let newMessagesHistory = this.state.messages;
+        //     newMessagesHistory.push(item);
+        //     this.setState({
+        //         messages: newMessagesHistory
+        //     });
+        // });
+        // socket.on('error', (error)=>{console.log(error)});
+        // socket.on('history', messages => {
+        //     this.setState({
+        //         messages: messages
+        //     })
+        // })
+        axios.post('/logout')
     }
-    
-    typingMessage(e) {
+
+    loginValue(e) {
         this.setState({
             loginValue: e.target.value
         });
     }
 
-    sendMessage() {
-        let messageContent = this.state.loginValue.trim();
-        if(messageContent !== '') {
-            socket.emit('msg', this.state.loginValue);
-            
-            this.setState({ loginValue: '' });
-        }
-        
+    passwordValue(e) {
+        this.setState({
+            passwordValue: e.target.value
+        });
+    }
+    logIn() {
+        this.props.logIn(this.state);
     }
     render() {
+
+        let { auth } = this.props;
+        let { message } = this.props;
         return (
-            <div className='loginPage blue-grey lighten-5'>
-                <div className='loginForm blue-grey darken-2 grey-text text-lighten-3'>
+            <div className='loginPage grey darken-3'>
+                <div className='loginForm grey darken-4 grey-text text-lighten-3'>
                     <Row offset={3} s={6}>
-                        <Input s={12} label="Login" onChange={this.typingMessage} value={this.state.loginValue} />
-                        <Input type="password" label="Password" s={12} />
-                        <ul>
-                            {
-                                this.state.messages.map((i)=>{
-                                    return (
-                                        <li key={i.date}>
-                                            {i.content}
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
+                        <Input s={12} label="Login" onChange={this.loginValue} />
+                        <Input type="password" onChange={this.passwordValue} label="Password" s={12} />
+
                     </Row>
 
                     <Row offset={3} s={6}>
                         <Col s={6} className='flex_row flex_center'>
-                            {/* <Link to='/'>
-                                <Button waves='light'>OK</Button>
-                            </Link> */}
-                            <Button waves='light' onClick={this.sendMessage}>send message</Button>
-
+                            <Link to='/main'>
+                                <Button className='orange accent-3' waves='light' onClick={this.logIn}>Login</Button>
+                            </Link>
                         </Col>
                         <Col s={6} className='flex_row flex_center'>
-                            <Link to='/registrationForm'>
-                                <Button waves='light'>Registration</Button>
+                            <Link to='/registration'>
+                                <Button className='orange accent-3' waves='light'>Registration</Button>
                             </Link>
                         </Col>
                     </Row>
+                    {/* <Row offset={3} s={6}>
+                        <span s={12}>{message}</span>
+                    </Row> */}
+
                 </div>
-            </div>
+            </div >
         )
     }
 }

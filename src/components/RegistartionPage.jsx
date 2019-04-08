@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Row, Input, Button, Col } from "react-materialize";
+import { Row, Input, Button, Col, Toast } from "react-materialize";
 import axios from "axios";
 
 class RegistartionPage extends Component {
@@ -17,6 +17,10 @@ class RegistartionPage extends Component {
         this.emailCatching = this.emailCatching.bind(this);
         this.passwordCatching = this.passwordCatching.bind(this);
         this.registrateNewUser = this.registrateNewUser.bind(this);
+    }
+    
+    componentDidMount(){
+        axios.post('/logout')
     }
     userFirstNameCatching(e) {
         this.setState({
@@ -40,20 +44,23 @@ class RegistartionPage extends Component {
     }
 
     registrateNewUser() {
-        axios.post('/RegistrationForm', {
-            // addedAt: new Date(),
-            firstName: this.state.userFirstName,
-            lastName: this.state.userLastName,
-            password: this.state.password,
-            userEmail: this.state.email,
-        })
-       
-    }
-    render() {
 
+        this.props.registrateNewUser(this.state);
+        // axios.post('/registrationNewUser', {
+        //     firstName: this.state.userFirstName,
+        //     lastName: this.state.userLastName,
+        //     password: this.state.password,
+        //     userEmail: this.state.email,
+        //     message: ''
+        // })
+
+    }
+
+    render() {
+        let { message } = this.props;
         return (
-            <div className='registartionPage blue-grey lighten-5'>
-                <div className='registrationForm blue-grey darken-2 grey-text text-lighten-3'>
+            <div className='registartionPage grey darken-3'>
+                <div className='registrationForm grey darken-4'>
                     <Row>
                         <Input s={12} label="First Name" onChange={this.userFirstNameCatching} />
 
@@ -65,19 +72,22 @@ class RegistartionPage extends Component {
                     </Row>
                     <Row>
                         <Col s={6} className='flex_row flex_center'>
-                            {/* <Link to='/'>
-                                <Button waves='light'>OK</Button>
-                            </Link> */}
-                            <Button waves='light' onClick={this.registrateNewUser}>OK</Button>
+                            <Link to='/main'>
+                                <Button className='orange accent-3' waves='light' onClick={this.registrateNewUser}>OK</Button>
+                            </Link>
                         </Col>
                         <Col s={6} className='flex_row flex_center'>
-                            <Link to='/UnauthorizedPage'>
-                                <Button waves='light'>Back</Button>
+                            <Link to='/login'>
+                                <Button className='orange accent-3' waves='light'>Login</Button>
                             </Link>
                         </Col>
                     </Row>
+                    {/* <Row offset={3} s={6}>
+                        <span s={12}>{message}</span>
+                    </Row> */}
+
                 </div>
-            </div >
+            </div>
         )
     }
 }
